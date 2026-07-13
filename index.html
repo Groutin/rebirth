@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>rebirth</title>
+<title>Lecture vidéo</title>
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
 <style>
   :root {
@@ -433,6 +433,11 @@
   });
   controls.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
   controls.addEventListener('mouseleave', showControls);
+
+  // --- Désactive le menu contextuel au clic droit (rien ne se passe) ---
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
 })();
 </script>
 </body>
