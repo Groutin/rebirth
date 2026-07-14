@@ -59,6 +59,12 @@
     object-fit: cover;
   }
 
+  /* Sur téléphone, la barre de son est masquée : le volume s'y règle
+     avec les boutons physiques de l'appareil. */
+  body.is-mobile-video .controls {
+    display: none !important;
+  }
+
   /* --- Overlay de démarrage (bouton play + chargement) --- */
   .overlay {
     position: absolute;
@@ -295,7 +301,7 @@
 
   // --- Choix de la source selon l'appareil ---
   // Sur téléphone : vidéo portrait 9:16 (video_mobile.mp4), affichée en
-  // "cover" pour remplir l'écran. Sur desktop/tablette : test.mp4 (16:9),
+  // "cover" pour remplir l'écran. Sur desktop/tablette : video.mp4 (16:9),
   // rendu inchangé.
   const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const phoneUA = /Android.+Mobile|iPhone|iPod|Windows Phone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -373,7 +379,7 @@
   video.addEventListener('error', function () {
     playBtn.classList.remove('ready');
     playBtn.disabled = true;
-    playBtn.title = 'Impossible de charger la vidéo (./test.mp4).';
+    playBtn.title = 'Impossible de charger la vidéo (./video.mp4).';
   });
 
   // Passe la page entière en plein écran (équivalent visuel du F11).
