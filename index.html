@@ -382,25 +382,9 @@
     playBtn.title = 'Impossible de charger la vidéo (./video.mp4).';
   });
 
-  // Passe la page entière en plein écran (équivalent visuel du F11).
-  // Doit être appelé dans un geste utilisateur ; on ignore les échecs
-  // silencieusement (ex. iOS Safari qui ne le supporte pas sur la page).
-  function enterFullscreen() {
-    if (document.fullscreenElement) return;
-    const el = document.documentElement;
-    const req = el.requestFullscreen || el.webkitRequestFullscreen
-              || el.mozRequestFullScreen || el.msRequestFullscreen;
-    if (!req) return;
-    try {
-      const p = req.call(el);
-      if (p && p.catch) p.catch(function () {});
-    } catch (e) { /* non supporté : lecture normale sans plein écran */ }
-  }
-
   // --- Démarrage / relance de la lecture ---
   playBtn.addEventListener('click', function () {
     if (playBtn.disabled) return;
-    enterFullscreen(); // dans le geste de clic, pour être autorisé
     if (video.ended) video.currentTime = 0; // en fin de vidéo : on repart du début
     video.play().then(function () {
       started = true;
