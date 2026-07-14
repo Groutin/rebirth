@@ -52,6 +52,13 @@
     background: var(--bg);
   }
 
+  /* Vidéo portrait 9:16 sur téléphone : on remplit l'écran (léger recadrage
+     des bords plutôt que des bandes noires). La classe n'est ajoutée que
+     sur mobile, donc le rendu desktop reste en "contain". */
+  body.is-mobile-video video {
+    object-fit: cover;
+  }
+
   /* --- Overlay de démarrage (bouton play + chargement) --- */
   .overlay {
     position: absolute;
@@ -285,6 +292,21 @@
   let started = false;
   let lastVolume = DEFAULT_VOLUME; // pour restaurer après unmute
   let hideTimer;
+
+  // --- Choix de la source selon l'appareil ---
+  // Sur téléphone : vidéo portrait 9:16 (video_mobile.mp4), affichée en
+  // "cover" pour remplir l'écran. Sur desktop/tablette : test.mp4 (16:9),
+  // rendu inchangé.
+  const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const phoneUA = /Android.+Mobile|iPhone|iPod|Windows Phone|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const smallScreen = Math.min(window.screen.width, window.screen.height) <= 820;
+  const isPhone = coarsePointer && (phoneUA || smallScreen);
+
+  if (isPhone) {
+    video.setAttribute('src', './video_mobile.mp4');
+    document.body.classList.add('is-mobile-video');
+    video.load(); // recharge avec la nouvelle source
+  }
 
   // Icônes SVG monoline (trait) selon l'état du son
   const SPEAKER = '<path d="M4 9h3l4-3.5v13L7 15H4z"/>';
